@@ -11,6 +11,7 @@
         @livewireStyles
 
     </head>
+
     <body class="bg-gray-100 min-h-screen flex flex-col">
         <div class="container mx-auto px-4 py-8 flex-grow">
             <div class="flex justify-between items-center">
@@ -21,12 +22,14 @@
                     </svg>
                 </button>
             </div>
-
+            
         <livewire:annuity />
+        <livewire:frappe-chart />
 
         </div>
 
         @livewireScripts
+        @stack('scripts')
 
     </body>
 </html>

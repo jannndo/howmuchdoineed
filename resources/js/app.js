@@ -1,3 +1,4 @@
 import './bootstrap';
-import Chart from 'chart.js/auto';
-window.Chart = Chart; // Make Chart.js available globally
+import { Chart } from 'frappe-charts/dist/frappe-charts.min.esm';
+
+window.frappe = { Chart }; // Make Frappe.js available globally

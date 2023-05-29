@@ -3,6 +3,7 @@
 namespace App\Http\Livewire;
 
 use Livewire\Component;
+use Illuminate\Support\Facades\Log;
 
 class Annuity extends Component
 {
@@ -80,6 +81,25 @@ class Annuity extends Component
                         (((1+($this->nominalInterestRate/$this->conversions))**($this->conversions/$this->numberOfAnnuityPayments))-1)/
                         (((1+($this->nominalInterestRate/$this->conversions))**($this->conversions*$this->numberOfPeriods))-1)
                     );
+
+        // Create an array to hold the present value for each period
+        $presentValues = [];
+
+        // Calculate present value for each period
+        for ($i = 0; $i <= $this->numberOfPeriods; ++$i) {
+            $presentValues[$i] = $this->annuity *( 
+                                (((1+($this->nominalInterestRate/$this->conversions))**($this->conversions*$i))-1)/
+                                (((1+($this->nominalInterestRate/$this->conversions))**($this->conversions/$this->numberOfAnnuityPayments))-1)                                
+                            );
+        }
+
+        $data = [
+            'numberOfPeriods' => $this->numberOfPeriods,
+            'futureValue' => $this->futureValue,
+            'presentValues' => $presentValues,
+        ];
+        
+        $this->emit('updateChart', $data);
     }
 
     public function render()

@@ -6,14 +6,15 @@
      @endif
 
      <div class="mt-4 grid grid-cols-3 gap-4">
-        @foreach ($fields as $field => $prompt)
-            @if ($$field)
-                <div class="bg-white rounded-lg p-4 bg-transparent">
-                    <h4 class="font-semibold text-lg">{{ ucwords(str_replace('_', ' ', $field)) }}</h4>
-                    <input wire:model.lazy="{{ $field }}" type="text" class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300">
-                </div>
-            @endif
-        @endforeach
+     @foreach ($fields as $field => $prompt)
+        @if ($$field)
+            <div class="bg-white rounded-lg p-4 bg-transparent">
+                <h4 class="font-semibold text-lg">{{ ucwords(str_replace('_', ' ', $field)) }}</h4>
+                <input wire:model.lazy="{{ $field }}" id="{{ $field }}" name="{{ $field }}" type="text" class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300">
+            </div>
+        @endif
+    @endforeach
+
     </div>
 
     @if($annuity)
