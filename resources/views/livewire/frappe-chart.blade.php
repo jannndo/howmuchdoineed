@@ -17,7 +17,7 @@
                 chart = new window.frappe.Chart("#chart", {
                     title: "My Awesome Chart",
                     data: data,
-                    type: 'line',
+                    type: 'bar',
                     height: 500,
                 });
             });

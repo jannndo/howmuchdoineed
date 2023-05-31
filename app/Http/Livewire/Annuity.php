@@ -93,6 +93,32 @@ class Annuity extends Component
                             );
         }
 
+        // Create an array to hold the total interest value for each period
+        $totalInterestValues = [];
+
+        // Calculate total interest value for each period
+        for ($i = 0; $i <= $this->numberOfPeriods; ++$i) {
+            $totalInterestValues[$i] = $presentValues[$i] *((((1+($this->nominalInterestRate/$this->conversions))**($this->conversions*($i-1)))-1));
+        }
+
+        // Create an array to hold the simple interest value for each period
+        $simpleInterestValues = [];
+
+        // Calculate simple interest value for each period
+        for ($i = 0; $i <= $this->numberOfPeriods; ++$i) {
+            $simpleInterestValues[$i] = $presentValues[$i]*($this->nominalInterestRate/$this->conversions*($i-1));
+        }
+
+        // Create an array to hold the compound part of interest value for each period
+        $compoundInterestValues = [];
+
+        // Calculate compound part of interest value for each period
+        for ($i = 0; $i <= $this->numberOfPeriods; ++$i) {
+            $compoundInterestValues[$i] = $totalInterestValues[$i]-$simpleInterestValues[$i];
+        }
+
+        dd($totalInterestValues);
+
         $data = [
             'numberOfPeriods' => $this->numberOfPeriods,
             'futureValue' => $this->futureValue,
