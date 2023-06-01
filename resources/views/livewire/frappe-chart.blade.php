@@ -19,6 +19,9 @@
                     data: data,
                     type: 'bar',
                     height: 500,
+                    barOptions: {
+                        stacked: 1
+                    },
                 });
             });
         });

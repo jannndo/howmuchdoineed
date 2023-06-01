@@ -25,19 +25,33 @@ class FrappeChart extends Component
 
     public function updateChart($data)
     {
-        $presentValuesDataset = [
-            'name' => "Present Value",
+        $cummulativeAnnuityValuesDataset = [
+            'name' => "Cummulative Annuity Values",
+            'values' => []
+        ];
+        
+        $simpleInterestValuesDataset = [
+            'name' => "Simple Interest Values",
+            'values' => []
+        ];
+        
+        $compoundInterestValuesDataset = [
+            'name' => "Compound Interest Values",
             'values' => []
         ];
     
         for ($i = 0; $i <= $data['numberOfPeriods']; $i++) {
-            array_push($presentValuesDataset['values'], $data['presentValues'][$i]);
+            array_push($cummulativeAnnuityValuesDataset['values'], $data['cummulativeAnnuityValues'][$i]);
+            array_push($simpleInterestValuesDataset['values'], $data['simpleInterestValues'][$i]);
+            array_push($compoundInterestValuesDataset['values'], $data['compoundInterestValues'][$i]);
         }
         
         $this->data = [
             'labels' => range(0, $data['numberOfPeriods']),
             'datasets' => [
-                $presentValuesDataset
+                $cummulativeAnnuityValuesDataset,
+                $simpleInterestValuesDataset,
+                $compoundInterestValuesDataset
             ]
         ];
     
