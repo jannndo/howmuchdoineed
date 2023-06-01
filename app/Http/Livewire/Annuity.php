@@ -77,17 +77,18 @@ class Annuity extends Component
 
     public function calculateAnnuity()
     {
-        $this->annuity = $this->futureValue *( 
-                        (((1+($this->nominalInterestRate/$this->conversions))**($this->conversions/$this->numberOfAnnuityPayments))-1)/
-                        (((1+($this->nominalInterestRate/$this->conversions))**($this->conversions*$this->numberOfPeriods))-1)
-                    );
+        $r = (1+($this->nominalInterestRate/$this->conversions)); //(1+i/m)
+        $cr = $this->conversions*$this->numberOfPeriods; //conversion rate (m.n)
+        $ppc = $this->conversions/$this->numberOfAnnuityPayments; //period per conversion (m/p)
+
+        $this->annuity = $this->futureValue * ((($r**$ppc)-1)/(($r**$cr)-1));
 
         // Create an array to hold the cumulative annuity value for each period
         $cummulativeAnnuityValues = [];
 
         // Calculate cummulative annuty value for each period
         for ($i = 0; $i <= $this->numberOfPeriods; ++$i) {
-            $cummulativeAnnuityValues[$i] = $this->annuity * $i;
+            $cummulativeAnnuityValues[$i] = $this->annuity * $i * $this->numberOfAnnuityPayments;
         }
 
         // Create an array to hold the present value for each period
@@ -95,9 +96,9 @@ class Annuity extends Component
 
         // Calculate present value for each period
         for ($i = 0; $i <= $this->numberOfPeriods; ++$i) {
-            $presentValues[$i] = $this->annuity *( 
-                                (((1+($this->nominalInterestRate/$this->conversions))**($this->conversions*$i))-1)/
-                                (((1+($this->nominalInterestRate/$this->conversions))**($this->conversions/$this->numberOfAnnuityPayments))-1)                                
+            $presentValues[$i] = $this->annuity * (
+                                (1-$r**(-$this->conversions*$i))/
+                                (($r**$ppc)-1)
                             );
         }
 
@@ -106,7 +107,7 @@ class Annuity extends Component
 
         // Calculate total interest value for each period
         for ($i = 0; $i <= $this->numberOfPeriods; ++$i) {
-            $totalInterestValues[$i] = $presentValues[$i] *((((1+($this->nominalInterestRate/$this->conversions))**($this->conversions*($i-1)))-1));
+            $totalInterestValues[$i] = $presentValues[$i] *(((($r)**($this->conversions*($i)))-1));
         }
 
         // Create an array to hold the simple interest value for each period
@@ -114,7 +115,7 @@ class Annuity extends Component
 
         // Calculate simple interest value for each period
         for ($i = 0; $i <= $this->numberOfPeriods; ++$i) {
-            $simpleInterestValues[$i] = $presentValues[$i]*($this->nominalInterestRate/$this->conversions*($i-1));
+            $simpleInterestValues[$i] = $presentValues[$i]*($this->nominalInterestRate/$this->conversions)*($i);
         }
 
         // Create an array to hold the compound part of interest value for each period
