@@ -11,9 +11,18 @@ class Annuity extends Component
     public $step = 0;
     public $prompt;
     public $fields = [
-        'futureValue' => 'Please enter the future value',
-        'nominalInterestRate' => 'Please enter the nominal interest rate',
-        'numberOfPeriods' => 'Please enter the number of periods'
+        'futureValue' => [
+            'prompt' => 'Please enter the desired amount of money',
+            'description' => 'Desired amount of money',
+        ],
+        'nominalInterestRate' => [
+            'prompt' => 'Please enter the interest rate',
+            'description' => 'Nominal interest rate',
+        ],
+        'numberOfPeriods' => [
+            'prompt' => 'Please enter the number of years',
+            'description' => 'Years',
+        ]
     ];
     public $futureValue, $nominalInterestRate, $numberOfPeriods;
     public $conversions = 1;
