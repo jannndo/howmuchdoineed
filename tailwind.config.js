@@ -7,27 +7,12 @@ module.exports = {
     "./resources/**/*.js",
   ],
   theme: {
+    fontFamily: {
+      sans: ['Graphik', 'sans-serif'],
+      serif: ['Merriweather', 'serif'],
+    },
     extend: {
-      backgroundColor: {
-        'input-main': 'rgba(255, 255, 255, 0.5)',
-        'input-main-focus': 'rgba(255, 255, 255, 0.8)',
-      },
-      fontSize: {
-        'input-main': '2rem',
-      },
-      borderRadius: {
-        'card': '0.5rem',
-      },
-      borderWidth: {
-        'input-main': '2px',
-      },
-      textColor: {
-        'card-title': '#1A202C',
-        'card-text': '#718096',
-      },
-      spacing: {
-        'card-padding': '1rem',
-      },
+
     },
   },
   plugins: [

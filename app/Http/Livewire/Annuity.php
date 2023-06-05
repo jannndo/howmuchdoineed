@@ -13,7 +13,7 @@ class Annuity extends Component
     public $fields = [
         'futureValue' => [
             'prompt' => 'Please enter the desired amount of money',
-            'description' => 'Desired amount of money',
+            'description' => 'Money i want',
         ],
         'nominalInterestRate' => [
             'prompt' => 'Please enter the interest rate',
