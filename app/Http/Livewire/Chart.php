@@ -13,6 +13,7 @@ class Chart extends Component
     public function onUpdateChart($data)
     {
         $this->chartData = $data;
+        $this->emitTo('chart', 'chartData', $data);
     }
 
     public function render()

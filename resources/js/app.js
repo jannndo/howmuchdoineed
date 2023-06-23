@@ -1,7 +1,7 @@
 import Alpine from 'alpinejs'
-import Chart from 'chart.js/auto'
- 
-window.Alpine = Alpine
- Alpine.start()
+import { ChartComponent } from './chart.js';
 
-window.Chart = Chart;
+window.ChartComponent = ChartComponent;
+window.Alpine = Alpine
+
+Alpine.start()
