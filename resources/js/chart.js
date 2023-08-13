@@ -1,4 +1,5 @@
-import { Chart } from 'chart.js';
+import Chart from 'chart.js/auto';
+
 
 export function ChartComponent() {
     console.log('exported function loaded') //debug
@@ -25,7 +26,7 @@ export function ChartComponent() {
             }     
         
             this.chart = new Chart(
-                document.getElementById('data'),
+                document.querySelector('#chartContainer canvas'), // Using querySelector within the component's root
                 {
                     type: 'bar',
                     data: {
@@ -43,6 +44,7 @@ export function ChartComponent() {
                                 stacked: true
                             }
                         }
+
                     }
                 }
             );
