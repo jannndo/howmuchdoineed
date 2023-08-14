@@ -1,8 +1,8 @@
 <div x-data="{ 
         chartData: @entangle('chartData'), 
-        drawChart: window.ChartComponent().drawChart 
+        initChart: window.ChartComponent().initChart 
     }" 
-    x-init="$watch('chartData', value => { if(value) drawChart() })" 
+    x-init="initChart()" 
     id="chartContainer">
 
     <div style="width: 800px;"><canvas id="data"></canvas></div>

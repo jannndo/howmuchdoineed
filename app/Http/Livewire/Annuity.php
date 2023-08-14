@@ -95,7 +95,7 @@ class Annuity extends Component
         // Create an array to hold the cumulative annuity value for each period
         $cummulativeAnnuityValues = [];
 
-        // Calculate cummulative annuty value for each period
+        // Calculate cummulative annuity value for each period
         for ($i = 0; $i <= $this->numberOfPeriods; ++$i) {
             $cummulativeAnnuityValues[$i] = $this->annuity * $i * $this->numberOfAnnuityPayments;
         }

@@ -1,54 +1,67 @@
 import Chart from 'chart.js/auto';
 
-
 export function ChartComponent() {
-    console.log('exported function loaded') //debug
-    return {
+    console.log('exported function loaded'); //debug
+
+    let component = {
         chart: null,
         chartData: {},
+
         initChart() {
             console.log('Chart.js version:', Chart.version); // Log the version of Chart.js
             console.log('initChart function loaded'); //debug
+            
+            this.$watch('chartData', (newData) => {
+                console.log('chartData updated in watch function:', newData);
 
-            this.$watch('chartData', (value) => {
-                if (value) {
-                    this.drawChart();
+                if (!newData || JSON.stringify(newData) === JSON.stringify(component.chartData)) {
+                    return; // Exit if data is unchanged
                 }
+
+                component.chartData = newData; // Update the chart data
+                component.drawChart(); // Draw the chart with the new data
             });
         },
-        drawChart() {
-            let data = this.chartData;
 
-            console.log('drawChart function loaded') //debug
-            
-            if (this.chart) {
-                this.chart.destroy(); // Destroy the previous instance of the chart
-            }     
+        drawChart() {
+            console.log('drawChart function loaded with data:', component.chartData);
+
+            if (component.chart) {
+                component.chart.destroy(); // Destroy the previous instance of the chart
+            }
         
-            this.chart = new Chart(
-                document.querySelector('#chartContainer canvas'), // Using querySelector within the component's root
+            component.chart = new Chart(
+                document.getElementById('data'),
                 {
                     type: 'bar',
                     data: {
-                        labels: [...Array(data.numberOfPeriods + 1).keys()],
+                        labels: Array.from({ length: parseInt(component.chartData.numberOfPeriods) + 1 }, (_, i) => i),
                         datasets: [
-                            { label: 'Present Values', data: data.presentValues, stack: 'Stack 0' },
-                            { label: 'Simple Interest Values', data: data.simpleInterestValues, stack: 'Stack 0' },
-                            { label: 'Compound Interest Values', data: data.compoundInterestValues, stack: 'Stack 0' }
+                            { label: 'Present Values', data: component.chartData.presentValues, stack: 'Stack 0' },
+                            { label: 'Simple Interest Values', data: component.chartData.simpleInterestValues, stack: 'Stack 0' },
+                            { label: 'Compound Interest Values', data: component.chartData.compoundInterestValues, stack: 'Stack 0' }
                         ]
                     },
                     options: {
                         scales: {
+                            x: {
+                                beginAtZero: true,
+                            },
                             y: {
                                 beginAtZero: true,
                                 stacked: true
                             }
                         }
-
                     }
                 }
             );
-            this.chart.update();
         },
-    }
+
+        setData(newData) {
+            this.chartData = newData; // Update chartData and watcher will be triggered if you're using some reactive mechanism
+        }
+    };
+
+    return component;
 }
+    
