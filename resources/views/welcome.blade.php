@@ -31,8 +31,7 @@
                 </button>
             </div>
 
-        <livewire:annuity />
-        <livewire:chart />
+        <livewire:dashboard />
 
         </div>
 
