@@ -3,6 +3,7 @@
 namespace App\Http\Livewire;
 
 use Livewire\Component;
+use Symfony\Component\Mailer\DelayedEnvelope;
 
 class Chart extends Component
 {
@@ -12,8 +13,9 @@ class Chart extends Component
 
     public function onUpdateChart($data)
     {
-        $this->chartData = $data;
+        $this->chartData = $data;   
         $this->emitTo('chart', 'chartData', $data);
+        $this->emit('showChart', true);
     }
 
     public function render()

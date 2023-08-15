@@ -9,12 +9,12 @@ class Dashboard extends Component
     public $showChart = false;
     public $chartData = [];
 
-    protected $listeners = ['updateChart' => 'displayChart'];
+    protected $listeners = ['showChart' => 'displayChart'];
 
-    public function displayChart($data)
+    public function displayChart()
     {
         $this->showChart = true;
-        $this->chartData = $data;
+        // $this->chartData = $data;
     }
 
     public function render()

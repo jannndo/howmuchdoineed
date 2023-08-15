@@ -1,9 +1,5 @@
 <div>
-    <!-- Include the Annuity component -->
+    <!-- Include the Livewire components -->
     <livewire:annuity />
-
-    <!-- Conditionally display the Chart component with data -->
-
-        @livewire('chart', ['chartData' => $chartData])
-
+    <livewire:chart />
 </div>  
