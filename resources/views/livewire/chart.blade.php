@@ -9,7 +9,7 @@
     @if(!empty($chartData))
 
         <div class="bg-white p-8 rounded-xl shadow-lg w-full ">
-            <h2 class="text-2xl font-bold mb-6 text-center">Your Chart Title</h2>
+            <!-- <h2 class="text-2xl font-bold mb-6 text-center">Your Chart Title</h2> -->
             <div class="flex justify-center w-full">
                 <!-- Set canvas to occupy full width of its parent -->
                 <canvas id="data" class="w-full"></canvas>
