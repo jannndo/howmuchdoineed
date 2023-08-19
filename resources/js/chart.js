@@ -37,7 +37,7 @@ export function ChartComponent() {
                     data: {
                         labels: Array.from({ length: parseInt(component.chartData.numberOfPeriods) + 1 }, (_, i) => i),
                         datasets: [
-                            { label: 'Present Values', data: component.chartData.presentValues, stack: 'Stack 0', backgroundColor: 'rgb(80, 64, 153)' }, // Red
+                            { label: 'Cummulative Annuity Values', data: component.chartData.cummulativeAnnuityValues, stack: 'Stack 0', backgroundColor: 'rgb(80, 64, 153)' }, // Red
                             { label: 'Simple Interest Values', data: component.chartData.simpleInterestValues, stack: 'Stack 0', backgroundColor: 'rgb(151, 78, 195)' }, // Green
                             { label: 'Compound Interest Values', data: component.chartData.compoundInterestValues, stack: 'Stack 0', backgroundColor: 'rgb(254, 123, 229)' } // Blue
                         ]
@@ -70,12 +70,12 @@ export function ChartComponent() {
                                         // Skip the first tick
                                         if (index === 0) return '';
                                 
-                                        // Format the y-axis labels as currency
-                                        let formattedValue = new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'EUR' }).format(value);
+                                        // Format the y-axis labels as decimal numbers
+                                        let formattedValue = new Intl.NumberFormat('de-DE').format(value);
                                         if (value >= 1000000000) {
-                                            formattedValue = new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'EUR', minimumFractionDigits: 0 }).format(value / 1000000) + 'M';
+                                            formattedValue = new Intl.NumberFormat('de-DE', { minimumFractionDigits: 0 }).format(value / 1000000) + 'M';
                                         } else if (value >= 1000000) {
-                                            formattedValue = new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'EUR', minimumFractionDigits: 0 }).format(value / 1000) + 'K';
+                                            formattedValue = new Intl.NumberFormat('de-DE', { minimumFractionDigits: 0 }).format(value / 1000) + 'K';
                                         }
                                         return formattedValue;
                                     }
@@ -87,21 +87,21 @@ export function ChartComponent() {
                             }
                         },
                         plugins: {
-                            legend: {
-                                display: false,
-                                position: 'bottom',
-                                align: 'start',
-                                labels: {
-                                    usePointStyle: true,  // Use point styles (dots) instead of rectangles
-                                    padding: 20,  // Increase padding to ensure labels are placed beneath each other
-                                },
-                                fullSize: false,
-                                layout: {
-                                    padding: {
-                                        left: 10  // Add some left padding to move legend slightly away from the edge
-                                    }
-                                }
-                            }
+                            // legend: {
+                            //     display: true,
+                            //     position: 'bottom   ',
+                            //     align: 'start',
+                            //     labels: {
+                            //         usePointStyle: true,  // Use point styles (dots) instead of rectangles
+                            //         padding: 20,  // Increase padding to ensure labels are placed beneath each other
+                            //     },
+                            //     fullSize: false,
+                            //     layout: {
+                            //         padding: {
+                            //             left: 10  // Add some left padding to move legend slightly away from the edge
+                            //         }
+                            //     }
+                            // }
                         }
                     }
                     

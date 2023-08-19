@@ -19,6 +19,6 @@
     @endif
 
     <!-- for debugging purposes -->
-    <!-- <pre x-text="JSON.stringify(chartData, null, 2)" class="mt-4 text-xs"></pre> -->
+    <pre x-text="JSON.stringify(chartData, null, 2)" class="mt-4 text-xs"></pre>
     
 </div>

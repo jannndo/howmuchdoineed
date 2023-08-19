@@ -109,14 +109,15 @@ class Annuity extends Component
                                 (1-$r**(-$this->conversions*$i))/
                                 (($r**$ppc)-1)
                             );
-        }
+        }   
 
         // Create an array to hold the total interest value for each period
         $totalInterestValues = [];
 
         // Calculate total interest value for each period
+        //Hint: this value is calculated based on present values and cleard from time value between PV and FV
         for ($i = 0; $i <= $this->numberOfPeriods; ++$i) {
-            $totalInterestValues[$i] = $presentValues[$i] *(((($r)**($this->conversions*($i)))-1));
+            $totalInterestValues[$i] = ($presentValues[$i]*(((($r)**($this->conversions*($i)))-1))-($cummulativeAnnuityValues[$i]-$presentValues[$i]));
         }
 
         // Create an array to hold the simple interest value for each period
@@ -124,7 +125,7 @@ class Annuity extends Component
 
         // Calculate simple interest value for each period
         for ($i = 0; $i <= $this->numberOfPeriods; ++$i) {
-            $simpleInterestValues[$i] = $presentValues[$i]*($this->nominalInterestRate/$this->conversions)*($i);
+            $simpleInterestValues[$i] = ($this->annuity*$this->numberOfAnnuityPayments)*($this->nominalInterestRate/$this->conversions)*($i);
         }
 
         // Create an array to hold the compound part of interest value for each period
@@ -141,7 +142,8 @@ class Annuity extends Component
             'presentValues' => $presentValues,
             'cummulativeAnnuityValues' => $cummulativeAnnuityValues,
             'simpleInterestValues' => $simpleInterestValues,
-            'compoundInterestValues' => $compoundInterestValues
+            'compoundInterestValues' => $compoundInterestValues,
+            'totalInterestValues' => $totalInterestValues
         ];
         
         $this->emit('updateChart', $data);
