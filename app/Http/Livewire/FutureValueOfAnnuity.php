@@ -3,17 +3,16 @@
 namespace App\Http\Livewire;
 
 use Livewire\Component;
-use Illuminate\Support\Facades\Log;
 
-class Annuity extends Component
+class FutureValueOfAnnuity extends Component
 {
     public $input;
     public $step = 0;
     public $prompt;
     public $fields = [
-        'futureValue' => [
-            'prompt' => 'Please enter the desired amount of money',
-            'description' => 'Money i want',
+        'annuity' => [
+            'prompt' => 'Please enter the monthly installment',
+            'description' => 'Money i can save periodically',
         ],
         'nominalInterestRate' => [
             'prompt' => 'Please enter the interest rate',
@@ -24,25 +23,25 @@ class Annuity extends Component
             'description' => 'Years',
         ]
     ];
-    public $futureValue, $nominalInterestRate, $numberOfPeriods;
+    public $annuity, $nominalInterestRate, $numberOfPeriods;
     public $conversions = 1;
     public $numberOfAnnuityPayments = 12;
-    public $annuity;
+    public $futureValueOfAnnuity;
 
     protected $listeners = ['updated'];
 
     protected $rules = [
-        'futureValue' => 'required|numeric',
+        'annuity' => 'required|numeric',
         'nominalInterestRate' => 'required|numeric',
         'numberOfPeriods' => 'required|numeric'
     ];
 
     public function mount()
     {
-        $this->futureValue = null;
+        $this->annuity = null;
         $this->nominalInterestRate = null;
         $this->numberOfPeriods = null;
-        $this->annuity = null;
+        $this->futureValueOfAnnuity = null;
 
         $fieldKeys = array_keys($this->fields);
         $this->prompt = $this->fields[$fieldKeys[$this->step]];
@@ -64,7 +63,7 @@ class Annuity extends Component
             $this->input = '';
 
             if ($this->step == count($fieldKeys)) {
-                $this->calculateAnnuity();
+                $this->calculateFutureValueOfAnnuity();
             }
         }
     }
@@ -72,7 +71,7 @@ class Annuity extends Component
     public function updated()
     {
         // Define the required fields
-        $requiredFields = ['futureValue', 'nominalInterestRate', 'numberOfPeriods'];
+        $requiredFields = ['annuity', 'nominalInterestRate', 'numberOfPeriods'];
 
         // Check if all required fields are filled
         foreach ($requiredFields as $field) {
@@ -81,16 +80,16 @@ class Annuity extends Component
             }
         }
 
-        $this->calculateAnnuity();
+        $this->calculateFutureValueOfAnnuity();
     }
 
-    public function calculateAnnuity()
+    public function calculateFutureValueOfAnnuity()
     {
         $r = (1+($this->nominalInterestRate/$this->conversions)); //(1+i/m)
         $cr = $this->conversions*$this->numberOfPeriods; //conversion rate (m.n)
         $ppc = $this->conversions/$this->numberOfAnnuityPayments; //period per conversion (m/p)
 
-        $this->annuity = $this->futureValue * ((($r**$ppc)-1)/(($r**$cr)-1));
+        $this->futureValueOfAnnuity = $this->annuity * ((($r**$cr)-1)/(($r**$ppc)-1));
 
         // Create an array to hold the cumulative annuity value for each period
         $cummulativeAnnuityValues = [];
@@ -119,6 +118,7 @@ class Annuity extends Component
         for ($i = 0; $i <= $this->numberOfPeriods; ++$i) {
             $totalInterestValues[$i] = ($presentValues[$i]*(((($r)**($this->conversions*($i)))-1))-($cummulativeAnnuityValues[$i]-$presentValues[$i]));
         }
+        //38,03 = 1157,04*(1,07^1-1) - 1200 - 1157,04
 
         // Create an array to hold the simple interest value for each period
         $simpleInterestValues = [];
@@ -138,7 +138,7 @@ class Annuity extends Component
 
         $data = [
             'numberOfPeriods' => $this->numberOfPeriods,
-            'futureValue' => $this->futureValue,
+            'futureValueOfAnnuity' => $this->futureValueOfAnnuity,
             'presentValues' => $presentValues,
             'cummulativeAnnuityValues' => $cummulativeAnnuityValues,
             'simpleInterestValues' => $simpleInterestValues,
@@ -151,6 +151,6 @@ class Annuity extends Component
 
     public function render()
     {
-        return view('livewire.annuity');
+        return view('livewire.future-value-of-annuity');
     }
 }
