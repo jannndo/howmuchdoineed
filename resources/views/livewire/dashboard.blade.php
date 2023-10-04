@@ -1,5 +1,5 @@
 <div>
     <!-- Include the Livewire components -->
-    <livewire:annuity />
+    <livewire:future-value-of-annuity />
     <livewire:chart />
 </div>  

@@ -88,6 +88,7 @@ class FutureValueOfAnnuity extends Component
         $r = (1+($this->nominalInterestRate/$this->conversions)); //(1+i/m)
         $cr = $this->conversions*$this->numberOfPeriods; //conversion rate (m.n)
         $ppc = $this->conversions/$this->numberOfAnnuityPayments; //period per conversion (m/p)
+        $effectiveInterestRate = ((1+($this->nominalInterestRate))**(1/$this->numberOfAnnuityPayments))-1; //effective interest rate (1+nominalinterestrate)^(1/numberofpayments)
 
         $this->futureValueOfAnnuity = $this->annuity * ((($r**$cr)-1)/(($r**$ppc)-1));
 
@@ -116,16 +117,21 @@ class FutureValueOfAnnuity extends Component
         // Calculate total interest value for each period
         //Hint: this value is calculated based on present values and cleared from time value between PV and FV
         for ($i = 0; $i <= $this->numberOfPeriods; ++$i) {
-            $totalInterestValues[$i] = ($presentValues[$i]*(((($r)**($this->conversions*($i)))-1))-($cummulativeAnnuityValues[$i]-$presentValues[$i]));
+            //$totalInterestValues[$i] = ($presentValues[$i]*(((($r)**($this->conversions*($i)))-1))-($cummulativeAnnuityValues[$i]-$presentValues[$i]));
+            $totalInterestValues[$i] = ($this->annuity*(((($r)**($this->conversions*($i)))-1))/(($r**$ppc)-1))-$cummulativeAnnuityValues[$i];
         }
-        //38,03 = 1157,04*(1,07^1-1) - 1200 - 1157,04
+        //38,03 = 1157,04*(1,07^2-1) - 1200 - 1157,04
 
         // Create an array to hold the simple interest value for each period
         $simpleInterestValues = [];
 
         // Calculate simple interest value for each period
         for ($i = 0; $i <= $this->numberOfPeriods; ++$i) {
-            $simpleInterestValues[$i] = ($this->annuity*$this->numberOfAnnuityPayments)*($this->nominalInterestRate/$this->conversions)*($i);
+            $calculatoryInterestRate = (((1+$effectiveInterestRate)**$this->numberOfAnnuityPayments)-1)*$i;
+            $simpleInterestValues[$i] = ($this->annuity*($calculatoryInterestRate/$effectiveInterestRate))-$cummulativeAnnuityValues[$i];
+            //$simpleInterestValues[$i] = (($this->annuity*(1/$effectiveInterestRate))*(((1+$effectiveInterestRate)^($i*$this->numberOfAnnuityPayments))-1));
+            //$simpleInterestValues[$i] =  ($cummulativeAnnuityValues[$i]*($this->nominalInterestRate/$this->conversions));
+            //($this->annuity*$this->numberOfAnnuityPayments)*($this->nominalInterestRate/$this->conversions)*($i);
         }
 
         // Create an array to hold the compound part of interest value for each period
