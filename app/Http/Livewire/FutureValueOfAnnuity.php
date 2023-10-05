@@ -117,10 +117,8 @@ class FutureValueOfAnnuity extends Component
         // Calculate total interest value for each period
         //Hint: this value is calculated based on present values and cleared from time value between PV and FV
         for ($i = 0; $i <= $this->numberOfPeriods; ++$i) {
-            //$totalInterestValues[$i] = ($presentValues[$i]*(((($r)**($this->conversions*($i)))-1))-($cummulativeAnnuityValues[$i]-$presentValues[$i]));
             $totalInterestValues[$i] = ($this->annuity*(((($r)**($this->conversions*($i)))-1))/(($r**$ppc)-1))-$cummulativeAnnuityValues[$i];
         }
-        //38,03 = 1157,04*(1,07^2-1) - 1200 - 1157,04
 
         // Create an array to hold the simple interest value for each period
         $simpleInterestValues = [];
@@ -129,9 +127,6 @@ class FutureValueOfAnnuity extends Component
         for ($i = 0; $i <= $this->numberOfPeriods; ++$i) {
             $calculatoryInterestRate = (((1+$effectiveInterestRate)**$this->numberOfAnnuityPayments)-1)*$i;
             $simpleInterestValues[$i] = ($this->annuity*($calculatoryInterestRate/$effectiveInterestRate))-$cummulativeAnnuityValues[$i];
-            //$simpleInterestValues[$i] = (($this->annuity*(1/$effectiveInterestRate))*(((1+$effectiveInterestRate)^($i*$this->numberOfAnnuityPayments))-1));
-            //$simpleInterestValues[$i] =  ($cummulativeAnnuityValues[$i]*($this->nominalInterestRate/$this->conversions));
-            //($this->annuity*$this->numberOfAnnuityPayments)*($this->nominalInterestRate/$this->conversions)*($i);
         }
 
         // Create an array to hold the compound part of interest value for each period
